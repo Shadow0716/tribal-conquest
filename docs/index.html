@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tribal Conquest — Downloads &amp; Online</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <meta http-equiv="refresh" content="60">
+</head>
+<body>
+  <div class="bg"></div>
+  <main>
+    <header class="hero">
+      <p class="brand">Tribal Conquest</p>
+      <h1>Download &amp; presence</h1>
+      <p class="lede">Get the loader and game from GitHub Releases. This Pages mirror is links-only — zips stay on GitHub. Live MySQL presence needs the GoDaddy PHP host once <code>/TC_Game</code> is mapped; until then counts use a static fallback.</p>
+      <div class="cta">
+        <a class="btn primary" id="btn-loader" href="https://github.com/Shadow0716/tribal-conquest/releases/download/v0.1.2-beta/Tribal-Conquest-Loader-Windows.zip">Download Loader</a>
+        <a class="btn" id="btn-game" href="https://github.com/Shadow0716/tribal-conquest/releases/download/v0.1.2-beta/Tribal-Conquest-Windows.zip">Download Game</a>
+        <a class="btn ghost" href="https://github.com/Shadow0716/tribal-conquest/releases/tag/v0.1.2-beta">GitHub release</a>
+      </div>
+      <p class="note">Files are hosted on GitHub only — this site never stores game zips.</p>
+    </header>
+
+    <section class="presence" aria-label="Online presence">
+      <h2>Online now</h2>
+      <p class="meta" id="presence-meta">Loading presence…</p>
+      <p class="warn" id="presence-warn" hidden>Live presence needs the GoDaddy PHP host. Showing static fallback.</p>
+      <ul class="stats">
+        <li><span class="num" id="stat-players">—</span><span class="label">Players online</span></li>
+        <li><span class="num" id="stat-sessions">—</span><span class="label">Open sessions</span></li>
+        <li><span class="num" id="stat-accounts">—</span><span class="label">Registered accounts</span></li>
+      </ul>
+      <div id="sessions-wrap">
+        <p class="empty" id="sessions-empty">No open sessions listed on this static fallback.</p>
+        <table id="sessions-table" hidden>
+          <thead><tr><th>Host</th><th>Zone</th><th>Players</th><th>Status</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      <p>Asset names: <code>Tribal-Conquest-Loader-Windows.zip</code>, <code>Tribal-Conquest-Windows.zip</code>, <code>version.json</code></p>
+      <p><a href="https://github.com/Shadow0716/tribal-conquest/releases/download/v0.1.2-beta/version.json">version.json</a> · <a href="https://github.com/Shadow0716/tribal-conquest">repository</a></p>
+      <p class="note">FTP portal at crashradiowaco.com/TC_Game is still 404 until cPanel maps the FTP jail; use this Pages URL for testing.</p>
+    </footer>
+  </main>
+  <script>
+    (async function () {
+      const meta = document.getElementById('presence-meta');
+      const warn = document.getElementById('presence-warn');
+      try {
+        const res = await fetch('presence.json', { cache: 'no-store' });
+        const data = await res.json();
+        document.getElementById('stat-players').textContent = data.players_online ?? 0;
+        document.getElementById('stat-sessions').textContent = data.open_sessions ?? 0;
+        document.getElementById('stat-accounts').textContent = data.registered_accounts ?? 0;
+        const src = data.source === 'static-fallback' ? 'static fallback' : (data.source || 'presence');
+        meta.textContent = 'Last updated ' + new Date().toISOString() + ' · ' + src + ' · refresh 60s';
+        if (data.source === 'static-fallback' || data.note) {
+          warn.hidden = false;
+          warn.textContent = data.note || 'Live presence needs the GoDaddy PHP host. Showing static fallback.';
+        }
+        const sessions = Array.isArray(data.sessions) ? data.sessions : [];
+        const table = document.getElementById('sessions-table');
+        const empty = document.getElementById('sessions-empty');
+        if (sessions.length) {
+          empty.hidden = true;
+          table.hidden = false;
+          const tb = table.querySelector('tbody');
+          tb.innerHTML = sessions.map(function (row) {
+            return '<tr><td>' + (row.host_display_name || '') + '</td><td>' + (row.zone_id || '') +
+              '</td><td>' + (row.player_count || 0) + ' / ' + (row.max_players || 0) +
+              '</td><td>' + (row.status || '') + '</td></tr>';
+          }).join('');
+        }
+      } catch (e) {
+        meta.textContent = 'Presence unavailable';
+        warn.hidden = false;
+      }
+    })();
+  </script>
+</body>
+</html>

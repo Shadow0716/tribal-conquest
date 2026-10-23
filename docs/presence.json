@@ -1,0 +1,8 @@
+﻿{
+  "players_online": 0,
+  "open_sessions": 0,
+  "registered_accounts": 0,
+  "sessions": [],
+  "source": "static-fallback",
+  "note": "Live presence requires PHP+MySQL on GoDaddy once /TC_Game is mapped. This JSON is a Pages fallback only."
+}
