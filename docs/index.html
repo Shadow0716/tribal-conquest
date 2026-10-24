@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tribal Conquest â€” Downloads &amp; Online</title>
-  <meta name="description" content="Download the Tribal Conquest loader and game. Live online presence from the TCGame session directory.">
+  <title>Tribal Conquest - Downloads &amp; Online</title>
+  <meta name="description" content="Download the Tribal Conquest loader. Live online presence from the TCGame session directory.">
   <link rel="stylesheet" href="assets/style.css">
   <meta http-equiv="refresh" content="60">
 </head>
@@ -21,23 +21,21 @@
         <span class="brand-conquest">Conquest</span>
       </p>
       <h1>Enter the battlegrounds</h1>
-      <p class="lede">Install the loader from GitHub, then grab the game pack from Drive. This Pages mirror is links-only. Live MySQL presence is on the GoDaddy host.</p>
+      <p class="lede">Download the loader to install and update the game. This Pages mirror is links-only. Live MySQL presence is on the GoDaddy host.</p>
       <div class="cta">
         <a class="btn primary" id="btn-loader" href="https://github.com/Shadow0716/tribal-conquest/releases/download/v0.1.2-beta/Tribal-Conquest-Loader-Windows.zip">Download Loader</a>
-        <a class="btn" id="btn-game" href="https://drive.usercontent.google.com/download?id=1Qn2nDD9-fYvCR_4YDqbPvsHkMkC1ylDd&amp;export=download&amp;confirm=t">Download Game</a>
-        <a class="btn ghost" href="https://github.com/Shadow0716/tribal-conquest/releases/tag/v0.1.2-beta">GitHub release</a>
       </div>
-      <p class="note">Loader zip stays on GitHub Releases. Game zip is on Google Drive â€” this site only links; it never hosts binaries.</p>
+      <p class="note">This page offers the loader only. The loader downloads and updates the game pack for you.</p>
     </header>
 
     <section class="presence" aria-label="Online presence">
       <h2>Online now</h2>
-      <p class="meta" id="presence-meta">Loading presenceâ€¦</p>
+      <p class="meta" id="presence-meta">Loading presence...</p>
       <p class="warn" id="presence-warn" hidden>Live presence needs the GoDaddy PHP host. Showing static fallback.</p>
       <ul class="stats">
-        <li><span class="num" id="stat-players">â€”</span><span class="label">Players online</span></li>
-        <li><span class="num" id="stat-sessions">â€”</span><span class="label">Open sessions</span></li>
-        <li><span class="num" id="stat-accounts">â€”</span><span class="label">Registered accounts</span></li>
+        <li><span class="num" id="stat-players">-</span><span class="label">Players online</span></li>
+        <li><span class="num" id="stat-sessions">-</span><span class="label">Open sessions</span></li>
+        <li><span class="num" id="stat-accounts">-</span><span class="label">Registered accounts</span></li>
       </ul>
       <div id="sessions-wrap">
         <p class="empty" id="sessions-empty">No open sessions listed on this static fallback.</p>
@@ -49,12 +47,7 @@
     </section>
 
     <footer>
-      <p>Asset names: <code>Tribal-Conquest-Loader-Windows.zip</code>, <code>Tribal-Conquest-Windows.zip</code>, <code>version.json</code></p>
-      <p>
-        <a href="https://github.com/Shadow0716/tribal-conquest/releases/download/v0.1.2-beta/version.json">version.json</a>
-        Â· <a href="https://drive.google.com/drive/folders/1H_LVAnSAVHIpRWB8A10g1ZMqa_pAcopY?usp=sharing">Drive folder</a>
-        Â· <a href="https://github.com/Shadow0716/tribal-conquest">repository</a>
-      </p>
+      <p>Loader asset: <code>Tribal-Conquest-Loader-Windows.zip</code></p>
       <p class="note">Canonical live portal: <a href="https://tcgame.crashradiowaco.com/">tcgame.crashradiowaco.com</a></p>
     </footer>
   </main>
@@ -62,7 +55,6 @@
     (async function () {
       const meta = document.getElementById('presence-meta');
       const warn = document.getElementById('presence-warn');
-      // Game CTA already points at Drive FILE_ID in markup. Drive-links worker owns version.json â€” do not rewrite it here.
       try {
         const res = await fetch('presence.json', { cache: 'no-store' });
         const data = await res.json();
@@ -70,7 +62,7 @@
         document.getElementById('stat-sessions').textContent = data.open_sessions ?? 0;
         document.getElementById('stat-accounts').textContent = data.registered_accounts ?? 0;
         const src = data.source === 'static-fallback' ? 'static fallback' : (data.source || 'presence');
-        meta.textContent = 'Last updated ' + new Date().toISOString() + ' Â· ' + src + ' Â· refresh 60s';
+        meta.textContent = 'Last updated ' + new Date().toISOString() + ' · ' + src + ' · refresh 60s';
         if (data.source === 'static-fallback' || data.note) {
           warn.hidden = false;
           warn.textContent = data.note || 'Live presence needs the GoDaddy PHP host. Showing static fallback.';
