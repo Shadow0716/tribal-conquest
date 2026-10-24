@@ -4,6 +4,7 @@ class_name SpaceportPlacer
 ## Johnny world lock: ONE city is the first-landing spaceport.
 ## Designated city: South Landing (zone_id "landing") - existing harbor/docks.
 ## Pads + Kenney hangars + Grab3D/Kenney/Quaternius berths + suited space-district NPCs.
+## Johnny hard rule: NO INDIANS — no Indian/Native American characters, costumes, props, names, or theming.
 ## Free itch packs only. Does not touch plant / TC_PLANT / loco.
 
 const CITY_ZONE_ID := "landing"
@@ -36,6 +37,22 @@ const DISTRICT_SPOTS := [
 	{"name": "Port Warden", "at": Vector3(-40.0, 0.0, 44.0), "duty": "guard", "axis": "x"},
 ]
 
+
+
+## Johnny hard ban — Indian / Native American theming (names, paths, mesh ids).
+static func _banned_theme(text: String) -> bool:
+	var t := text.to_lower().replace("-", " ").replace("_", " ")
+	var keys := [
+		"indian", "indians", "native american", "first nations", "apache", "cherokee",
+		"navajo", "sioux", "comanche", "hopi", "inuit", "eskimo", "aztec", "mayan", "maya ",
+		"inca", "hindu", "sikh", "bollywood", "sari", "turban", "teepee", "tipi", "wigwam",
+		"tomahawk", "headdress", "war bonnet", "moccasin", "powwow", "totem pole",
+		"tribal indian",
+	]
+	for k in keys:
+		if t.find(k) >= 0:
+			return true
+	return false
 
 static func apply(world: Node) -> void:
 	if world == null:
@@ -231,6 +248,9 @@ static func _space_kit() -> Array[String]:
 		"%s/Mike.fbx" % SPACE_DIR,
 	]
 	for path in candidates:
+		if _banned_theme(path):
+			printerr("TC_SPACEPORT_BAN path=%s" % path)
+			continue
 		if ResourceLoader.exists(path) or FileAccess.file_exists(path):
 			kit.append(path)
 	if kit.is_empty():
@@ -238,14 +258,23 @@ static func _space_kit() -> Array[String]:
 	return kit
 
 
+
 static func _place_space_district(world: Node) -> int:
 	if not world.has_method("_spawn_npc"):
 		return 0
 	var kit := _space_kit()
+	if kit.is_empty():
+		return 0
 	var placed := 0
 	for i in DISTRICT_SPOTS.size():
 		var spot: Dictionary = DISTRICT_SPOTS[i]
+		if _banned_theme(str(spot.get("name", ""))):
+			printerr("TC_SPACEPORT_BAN name=%s" % str(spot.get("name", "")))
+			continue
 		var path := kit[i % kit.size()]
+		if _banned_theme(path):
+			printerr("TC_SPACEPORT_BAN path=%s" % path)
+			continue
 		var body: Node3D = world.call(
 			"_spawn_npc",
 			str(spot["name"]),
@@ -266,3 +295,4 @@ static func _place_space_district(world: Node) -> int:
 			body.add_to_group("spaceport_npc")
 			placed += 1
 	return placed
+
