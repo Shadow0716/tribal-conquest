@@ -3,33 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tribal Conquest — Downloads &amp; Online</title>
+  <title>Tribal Conquest - Downloads &amp; Online</title>
+  <meta name="description" content="Download the Tribal Conquest loader. Live online presence from the TCGame session directory.">
   <link rel="stylesheet" href="assets/style.css">
   <meta http-equiv="refresh" content="60">
 </head>
 <body>
-  <div class="bg"></div>
+  <div class="bg" aria-hidden="true">
+    <div class="bg-hero"></div>
+    <div class="bg-wash"></div>
+    <div class="bg-grain"></div>
+  </div>
   <main>
     <header class="hero">
-      <p class="brand">Tribal Conquest</p>
-      <h1>Download &amp; presence</h1>
-      <p class="lede">Get the loader and game from GitHub Releases. This Pages mirror is links-only — zips stay on GitHub. Live MySQL presence needs the GoDaddy PHP host once <code>/TC_Game</code> is mapped; until then counts use a static fallback.</p>
+      <p class="brand" aria-label="Tribal Conquest">
+        <span class="brand-tribal">Tribal</span>
+        <span class="brand-conquest">Conquest</span>
+      </p>
+      <h1>Enter the battlegrounds</h1>
+      <p class="lede">Download the loader to install and update the game. This Pages mirror is links-only. Live MySQL presence is on the GoDaddy host.</p>
       <div class="cta">
         <a class="btn primary" id="btn-loader" href="https://github.com/Shadow0716/tribal-conquest/releases/download/v0.1.2-beta/Tribal-Conquest-Loader-Windows.zip">Download Loader</a>
-        <a class="btn" id="btn-game" href="https://github.com/Shadow0716/tribal-conquest/releases/download/v0.1.2-beta/Tribal-Conquest-Windows.zip">Download Game</a>
-        <a class="btn ghost" href="https://github.com/Shadow0716/tribal-conquest/releases/tag/v0.1.2-beta">GitHub release</a>
       </div>
-      <p class="note">Files are hosted on GitHub only — this site never stores game zips.</p>
+      <p class="note">This page offers the loader only. The loader downloads and updates the game pack for you.</p>
     </header>
 
     <section class="presence" aria-label="Online presence">
       <h2>Online now</h2>
-      <p class="meta" id="presence-meta">Loading presence…</p>
+      <p class="meta" id="presence-meta">Loading presence...</p>
       <p class="warn" id="presence-warn" hidden>Live presence needs the GoDaddy PHP host. Showing static fallback.</p>
       <ul class="stats">
-        <li><span class="num" id="stat-players">—</span><span class="label">Players online</span></li>
-        <li><span class="num" id="stat-sessions">—</span><span class="label">Open sessions</span></li>
-        <li><span class="num" id="stat-accounts">—</span><span class="label">Registered accounts</span></li>
+        <li><span class="num" id="stat-players">-</span><span class="label">Players online</span></li>
+        <li><span class="num" id="stat-sessions">-</span><span class="label">Open sessions</span></li>
+        <li><span class="num" id="stat-accounts">-</span><span class="label">Registered accounts</span></li>
       </ul>
       <div id="sessions-wrap">
         <p class="empty" id="sessions-empty">No open sessions listed on this static fallback.</p>
@@ -41,9 +47,8 @@
     </section>
 
     <footer>
-      <p>Asset names: <code>Tribal-Conquest-Loader-Windows.zip</code>, <code>Tribal-Conquest-Windows.zip</code>, <code>version.json</code></p>
-      <p><a href="https://github.com/Shadow0716/tribal-conquest/releases/download/v0.1.2-beta/version.json">version.json</a> · <a href="https://github.com/Shadow0716/tribal-conquest">repository</a></p>
-      <p class="note">FTP portal at crashradiowaco.com/TC_Game is still 404 until cPanel maps the FTP jail; use this Pages URL for testing.</p>
+      <p>Loader asset: <code>Tribal-Conquest-Loader-Windows.zip</code></p>
+      <p class="note">Canonical live portal: <a href="https://tcgame.crashradiowaco.com/">tcgame.crashradiowaco.com</a></p>
     </footer>
   </main>
   <script>
